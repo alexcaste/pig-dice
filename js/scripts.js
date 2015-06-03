@@ -1,35 +1,61 @@
+//code to run program
+
 function Player(playerId, playerScore) {
   this.playerId = playerId;
   this.playerScore = playerScore;
 }
 
-function Dice(number) {
-  this.number = number;
+Player.prototype.stats = function() {
+  return "Player " + this.playerId + ": Score =" + this.playerScore;
 }
 
-// Dice.prototype.roll = function(min, max) {
-//   return Math.floor(Math.random() * (max - min)) + min;
+// function Dice(number) {
+//   this.number = number;
+//   var allDice = []
+//   for(var x=0; x<= number; x++) {
+//     var dieId = x;
+//     var die = new Die(x);
+//     allDice.push(die);
+//   }
 // }
-//
+
+function Die(id) {
+  this.id = id;
+}
+
+Die.prototype.roll = function(min, max) {
+  this.roll = Math.floor(Math.random() * (max - min)) + min;
+}
+
 // Dice.prototype.diceMax = function(number) {
 //   return (number * 6) + 1;
 // }
 
-Dice.prototype.rollAgain = function(diceRoll) {
-  if (diceRoll != 1) {
-    return true;
-  } else {
+Die.prototype.rollAgain = function(diceRoll) {
+  if (diceRoll === 1) {
+    debugger;
     return false;
+  } else {
+    return true;
   }
 }
 
-Dice.prototype.roll = function(numberOfDice) {
-  var diceResults= []
-  for (var x=0; x <= numberOfDice; x++){
-    var roll = Math.floor(Math.random() * (6 - 1)) + 1;
+// Dice.prototype.diceList = function(allDice){
+//   var allDice = Dice.allDice;
+//   for (var x=0; x<=number; x++) {
+//     return "Die " + die.dieId + ": " +
+//
+//   }
+// }
 
-  }
-}
+// Dice.prototype.roll = function(numberOfDice) {
+//   var diceResults= []
+//   for (var x=0; x <= numberOfDice; x++){
+//     var roll = Math.floor(Math.random() * (6 - 1)) + 1;
+//     diceResults.push(roll);
+//   }
+//   return diceResults;
+// }
 
 function Game(numberOfPlayers, numberOfDice, charlieSheen) {
   this.numberOfPlayers = numberOfPlayers;
@@ -68,3 +94,67 @@ Game.prototype.activeScore = function(rollAgain, diceRoll, currentScore) {
   return diceRoll + currentScore;
   }
 }
+
+Game.prototype.winning = function(player) {
+  var playerScore = player.playerScore;
+  var charlieSheen = false;
+
+  if (playerScore >= 100) {
+    charlieSheen = true;
+  } else {}
+  return charlieSheen;
+}
+
+// for web pages
+
+$(document).ready(function() {
+  $(".show-login").show();
+  var newGame;
+  var allPlayers=[];
+  var initialPlayerScore = 0;
+  var tempScore = 0;
+  var startCharlieSheen = false;
+
+  $("form#start-game").submit(function(event){
+    event.preventDefault();
+
+    var inputNumberOfPlayers = parseInt($( "input#number-of-players" ).val());
+    var inputNumberOfDice = parseInt($( "input#number-of-dice" ).val());
+
+    var newGame = new Game(inputNumberOfPlayers,inputNumberOfDice, startCharlieSheen);
+    var allPlayers = newGame.createPlayers(inputNumberOfPlayers);
+
+
+    $(".show-login").hide();
+    $(".show-game").show();
+
+    $("ul#players-list").text("");
+      allPlayers.forEach(function(player){
+        $("ul#players-list").append("<li>" + player.stats() + "</li>");
+    })
+
+    $("form#roll").submit(function(event){
+      event.preventDefault();
+
+      $(".show-roll").show();
+      var gameDie = new Die(1);
+      gameDie.roll(1,7);
+      $("#dice-list").text("Die = " + gameDie.roll);
+
+      var oneCheck = gameDie.rollAgain(gameDie.roll);
+
+      if (oneCheck === false) {
+        return "Game Over";
+      } else {}
+
+      var holdingScore = newGame.activeScore(oneCheck, gameDie.roll, tempScore)
+
+      $("#active-score").text(holdingScore)
+
+      tempScore = holdingScore;
+    });
+
+  });
+
+
+});
