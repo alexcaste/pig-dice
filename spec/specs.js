@@ -5,3 +5,10 @@ describe('Player', function(){
     expect(testPlayer.playerScore).to.equal(0)
   });
 });
+
+describe('Die', function(){
+  it("will create a die with a side number", function(){
+    var testDie = new Die(2)
+    expect(testDie.side).to.equal(2)
+  });
+});
