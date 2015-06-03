@@ -24,7 +24,11 @@ Dice.prototype.rollAgain = function(diceRoll) {
 }
 
 Dice.prototype.roll = function(numberOfDice) {
-  var die = Math.floor(Math.random() * (6 - 1)) + 1;
+  var diceResults= []
+  for (var x=0; x <= numberOfDice; x++){
+    var roll = Math.floor(Math.random() * (6 - 1)) + 1;
+
+  }
 }
 
 function Game(numberOfPlayers, numberOfDice, charlieSheen) {
