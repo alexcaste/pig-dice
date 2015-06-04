@@ -14,12 +14,12 @@ describe('Player', function(){
 
 describe('Die', function(){
   it("will create die", function(){
-    var testDie = new Die(1);
+    var testDie = new Die(1, false);
     expect(testDie.id).to.equal(1);
   });
 
   it("will roll a die", function(){
-    var testDie = new Die(1);
+    var testDie = new Die(1, false);
     expect("123456").to.equal(testDie.roll);
   })
 });
@@ -43,7 +43,7 @@ describe('Game', function(){
 
 
   it("will roll all the dice", function(){
-    var testGame = new Game(3, 1, 0);
+    var testGame = new Game(30, 1, 0);
     var testGameDice = testGame.rollDice();
     expect(testGameDice).to.equal([""])
   });

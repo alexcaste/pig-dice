@@ -1,55 +1,3 @@
-//extra code
-
-// function Dice(number) {
-//   this.number = number;
-//   this.allDice=[];
-// }
-//
-// Dice.prototype.rollAll = function() {
-//   var number = this.number;
-//   var diceArray = this.allDice
-//   for(var x=1; x<= number; x++) {
-//     var die = new Die(x);
-//     die.roll();
-//     diceArray.push(die);
-//   }
-//   this.allDice = diceArray;
-// }
-//
-//
-// Dice.prototype.rollAgain = function() {
-//   var allDice = this.allDice
-//   var number = this.number;
-//
-//   for(var x=0; x<= allDice.length; x++) {
-//     var index = x
-//     var die = allDice[index]
-//     if (die.roll === 1) {
-//       return false;
-//     } else {
-//       return true;
-//     }
-//   }
-// }
-// Game.prototype.nextPlayer = function(currentPlayerId) {
-//   var numberOfPlayers = this.numberOfPlayers;
-//   var nextPlayerId  = (currentPlayerId + 1);
-//   if (nextPlayerId >= numberOfPlayers) {
-//     nextPlayerId = 1;
-//   } else {}
-//   return nextPlayerId;
-// }
-// Game.prototype.createPlayers = function(numberOfPlayers) {
-//   var allPlayers = []
-//   for(var x = 1; x <= numberOfPlayers; x++) {
-//     var player = new Player(x,0,false);
-//     allPlayers.push(player);
-//   }
-//   return allPlayers;
-// }
-
-
-
 //code to run program
 
 function Player(playerId, playerScore, charlieSheen) {
@@ -79,13 +27,8 @@ Dice.prototype.clearDice = function() {
   return this.allDice=[];
 }
 
-Dice.prototype.oneChecker = function(){
-  var allDice = this.allDice;
-  var numberOfOnes = 0;
-  for(var i=0;i<allDice.length;i++){
-    if(allDice[i] === 1)
-    numberOfOnes++;
-  }
+Dice.prototype.numberOfOnes = function(){
+  this.numberOfOnes = 0
 }
 
 
@@ -110,14 +53,24 @@ Game.prototype.rollDice = function() {
   var numberOfDice = this.numberOfDice;
   var dice = new Dice();
   var rollScore = 0;
+  var numberOfOnes
   for (var x=0; x <= numberOfDice; x++) {
-    var die = new Die(x);
+    var die = new Die(x,false);
     die.roll();
     var dieRoll = die.roll;
-    dice.push(die);
-    rollScore = rollScore + dieRoll;
-    debugger;
+    if (dieRoll === 1) {
+      die.isOne = true;
+      var pastOnes = dice.numberOfOnes();
+      dice.numberOfOnes() = pastOnes + 1;
+      this.activeScore = 0;
+    } else {
+      rollScore = rollScore + dieRoll;
+      this.activeScore = activeScore + rollScore;
+    }
+    dice.allDice.push(die);
   }
+  debugger;
+  console.log(dice)
   return dice;
 }
 
