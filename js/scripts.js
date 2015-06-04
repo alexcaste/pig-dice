@@ -16,9 +16,6 @@
 //   this.allDice = diceArray;
 // }
 //
-// Dice.prototype.clearDice = function() {
-//   return this.allDice=[];
-// }
 //
 // Dice.prototype.rollAgain = function() {
 //   var allDice = this.allDice
@@ -34,6 +31,24 @@
 //     }
 //   }
 // }
+// Game.prototype.nextPlayer = function(currentPlayerId) {
+//   var numberOfPlayers = this.numberOfPlayers;
+//   var nextPlayerId  = (currentPlayerId + 1);
+//   if (nextPlayerId >= numberOfPlayers) {
+//     nextPlayerId = 1;
+//   } else {}
+//   return nextPlayerId;
+// }
+// Game.prototype.createPlayers = function(numberOfPlayers) {
+//   var allPlayers = []
+//   for(var x = 1; x <= numberOfPlayers; x++) {
+//     var player = new Player(x,0,false);
+//     allPlayers.push(player);
+//   }
+//   return allPlayers;
+// }
+
+
 
 //code to run program
 
@@ -47,15 +62,31 @@ Player.prototype.stats = function() {
   return "Player " + this.playerId + ": Score = " + this.playerScore;
 }
 
-
-function Die(id) {
+function Die(id, isOne) {
   this.id = id;
+  this.isOne = isOne;
 }
 
 Die.prototype.roll = function() {
   this.roll = Math.floor(Math.random() * (7 - 1)) + 1;
 }
 
+function Dice() {
+  this.allDice = [];
+}
+
+Dice.prototype.clearDice = function() {
+  return this.allDice=[];
+}
+
+Dice.prototype.oneChecker = function(){
+  var allDice = this.allDice;
+  var numberOfOnes = 0;
+  for(var i=0;i<allDice.length;i++){
+    if(allDice[i] === 1)
+    numberOfOnes++;
+  }
+}
 
 
 function Game(numberOfPlayers, numberOfDice, activeScore) {
@@ -64,30 +95,33 @@ function Game(numberOfPlayers, numberOfDice, activeScore) {
   this.activeScore = activeScore;
 }
 
-Game.prototype.nextPlayer = function(currentPlayerId) {
-  var numberOfPlayers = this.numberOfPlayers;
-  var nextPlayerId  = (currentPlayerId + 1);
-  if (nextPlayerId >= numberOfPlayers) {
-    nextPlayerId = 1;
-  } else {}
-  return nextPlayerId;
-}
+Game.prototype.hold = function(currentPlayer) {
+  var activeScore = this.activeScore;
 
-Game.prototype.hold = function(currentPlayer, currentScore) {
   var currentPlayerScore = currentPlayer.playerScore;
-  var newPlayerScore = currentScore + currentPlayerScore;
+
+  var newPlayerScore = activeScore + currentPlayerScore;
+
   currentPlayer.playerScore = newPlayerScore;
-  return this.nextPlayer(currentPlayer.playerId)
 }
 
-Game.prototype.createPlayers = function(numberOfPlayers) {
-  var allPlayers = []
-  for(var x = 1; x <= numberOfPlayers; x++) {
-    var player = new Player(x,0,false);
-    allPlayers.push(player);
+Game.prototype.rollDice = function() {
+  var activeScore = this.activeScore;
+  var numberOfDice = this.numberOfDice;
+  var dice = new Dice();
+  var rollScore = 0;
+  for (var x=0; x <= numberOfDice; x++) {
+    var die = new Die(x);
+    die.roll();
+    var dieRoll = die.roll;
+    dice.push(die);
+    rollScore = rollScore + dieRoll;
+    debugger;
   }
-  return allPlayers;
+  return dice;
 }
+
+
 
 
 // for web pages
