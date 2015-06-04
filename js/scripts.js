@@ -1,71 +1,72 @@
-//code to run program
-
-function Player(playerId, playerScore) {
-  this.playerId = playerId;
-  this.playerScore = playerScore;
-}
-
-Player.prototype.stats = function() {
-  return "Player " + this.playerId + ": Score =" + this.playerScore;
-}
+//extra code
 
 // function Dice(number) {
 //   this.number = number;
-//   var allDice = []
-//   for(var x=0; x<= number; x++) {
-//     var dieId = x;
+//   this.allDice=[];
+// }
+//
+// Dice.prototype.rollAll = function() {
+//   var number = this.number;
+//   var diceArray = this.allDice
+//   for(var x=1; x<= number; x++) {
 //     var die = new Die(x);
-//     allDice.push(die);
+//     die.roll();
+//     diceArray.push(die);
+//   }
+//   this.allDice = diceArray;
+// }
+//
+// Dice.prototype.clearDice = function() {
+//   return this.allDice=[];
+// }
+//
+// Dice.prototype.rollAgain = function() {
+//   var allDice = this.allDice
+//   var number = this.number;
+//
+//   for(var x=0; x<= allDice.length; x++) {
+//     var index = x
+//     var die = allDice[index]
+//     if (die.roll === 1) {
+//       return false;
+//     } else {
+//       return true;
+//     }
 //   }
 // }
+
+//code to run program
+
+function Player(playerId, playerScore, charlieSheen) {
+  this.playerId = playerId;
+  this.playerScore = playerScore;
+  this.charlieSheen = charlieSheen;
+}
+
+Player.prototype.stats = function() {
+  return "Player " + this.playerId + ": Score = " + this.playerScore;
+}
+
 
 function Die(id) {
   this.id = id;
 }
 
-Die.prototype.roll = function(min, max) {
-  this.roll = Math.floor(Math.random() * (max - min)) + min;
+Die.prototype.roll = function() {
+  this.roll = Math.floor(Math.random() * (7 - 1)) + 1;
 }
 
-// Dice.prototype.diceMax = function(number) {
-//   return (number * 6) + 1;
-// }
 
-Die.prototype.rollAgain = function(diceRoll) {
-  if (diceRoll === 1) {
-    debugger;
-    return false;
-  } else {
-    return true;
-  }
-}
 
-// Dice.prototype.diceList = function(allDice){
-//   var allDice = Dice.allDice;
-//   for (var x=0; x<=number; x++) {
-//     return "Die " + die.dieId + ": " +
-//
-//   }
-// }
-
-// Dice.prototype.roll = function(numberOfDice) {
-//   var diceResults= []
-//   for (var x=0; x <= numberOfDice; x++){
-//     var roll = Math.floor(Math.random() * (6 - 1)) + 1;
-//     diceResults.push(roll);
-//   }
-//   return diceResults;
-// }
-
-function Game(numberOfPlayers, numberOfDice, charlieSheen) {
+function Game(numberOfPlayers, numberOfDice, activeScore) {
   this.numberOfPlayers = numberOfPlayers;
   this.numberOfDice = numberOfDice;
-  this.charlieSheen = charlieSheen;
+  this.activeScore = activeScore;
 }
 
-Game.prototype.nextPlayer = function(currentPlayerId, numberOfPlayers) {
-  var nextPlayerId  = (currentPlayerId + 1);
+Game.prototype.nextPlayer = function(currentPlayerId) {
   var numberOfPlayers = this.numberOfPlayers;
+  var nextPlayerId  = (currentPlayerId + 1);
   if (nextPlayerId >= numberOfPlayers) {
     nextPlayerId = 1;
   } else {}
@@ -75,35 +76,19 @@ Game.prototype.nextPlayer = function(currentPlayerId, numberOfPlayers) {
 Game.prototype.hold = function(currentPlayer, currentScore) {
   var currentPlayerScore = currentPlayer.playerScore;
   var newPlayerScore = currentScore + currentPlayerScore;
-  return currentPlayer.playerScore = newPlayerScore;
+  currentPlayer.playerScore = newPlayerScore;
+  return this.nextPlayer(currentPlayer.playerId)
 }
 
 Game.prototype.createPlayers = function(numberOfPlayers) {
   var allPlayers = []
   for(var x = 1; x <= numberOfPlayers; x++) {
-    var player = new Player(x,0);
+    var player = new Player(x,0,false);
     allPlayers.push(player);
   }
   return allPlayers;
 }
 
-Game.prototype.activeScore = function(rollAgain, diceRoll, currentScore) {
-  if (rollAgain === false) {
-    return 0;
-  } else {
-  return diceRoll + currentScore;
-  }
-}
-
-Game.prototype.winning = function(player) {
-  var playerScore = player.playerScore;
-  var charlieSheen = false;
-
-  if (playerScore >= 100) {
-    charlieSheen = true;
-  } else {}
-  return charlieSheen;
-}
 
 // for web pages
 
