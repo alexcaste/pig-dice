@@ -72,6 +72,8 @@ Game.prototype.rollDice = function() {
 // for web pages
 
 $(document).ready(function() {
+
+
   $(".show-login").show();
   var newGame;
   var allPlayers=[];
