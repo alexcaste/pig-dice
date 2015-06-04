@@ -43,7 +43,7 @@ describe('Game', function(){
 
 
   it("will roll all the dice", function(){
-    var testGame = new Game(30, 1, 0);
+    var testGame = new Game(1, 30, 0);
     var testGameDice = testGame.rollDice();
     expect(testGameDice).to.equal([""])
   });

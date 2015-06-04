@@ -21,14 +21,12 @@ Die.prototype.roll = function() {
 
 function Dice() {
   this.allDice = [];
+  this.numberOfOnes = null;
 }
 
 Dice.prototype.clearDice = function() {
-  return this.allDice=[];
-}
-
-Dice.prototype.numberOfOnes = function(){
-  this.numberOfOnes = 0
+  this.allDice=[];
+  this.numberOfOnes = null;
 }
 
 
@@ -40,11 +38,8 @@ function Game(numberOfPlayers, numberOfDice, activeScore) {
 
 Game.prototype.hold = function(currentPlayer) {
   var activeScore = this.activeScore;
-
   var currentPlayerScore = currentPlayer.playerScore;
-
   var newPlayerScore = activeScore + currentPlayerScore;
-
   currentPlayer.playerScore = newPlayerScore;
 }
 
@@ -53,15 +48,14 @@ Game.prototype.rollDice = function() {
   var numberOfDice = this.numberOfDice;
   var dice = new Dice();
   var rollScore = 0;
-  var numberOfOnes
-  for (var x=0; x <= numberOfDice; x++) {
+  var numberOfOnes =0;
+  for (var x=1; x <= numberOfDice; x++) {
     var die = new Die(x,false);
     die.roll();
     var dieRoll = die.roll;
     if (dieRoll === 1) {
       die.isOne = true;
-      var pastOnes = dice.numberOfOnes();
-      dice.numberOfOnes() = pastOnes + 1;
+      dice.numberOfOnes = dice.numberOfOnes + 1;
       this.activeScore = 0;
     } else {
       rollScore = rollScore + dieRoll;
@@ -69,8 +63,6 @@ Game.prototype.rollDice = function() {
     }
     dice.allDice.push(die);
   }
-  debugger;
-  console.log(dice)
   return dice;
 }
 
